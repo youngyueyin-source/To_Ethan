@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Open When • To Ethan</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quando&family=Square+Peg&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./letters.js" defer></script>
+</head>
+
+<body>
+    <header class="topbar">
+        <a class="back" href="../index.html">← back</a>
+        <div class="title">
+        <h1>open when...</h1>
+        </div>
+    </header>
+
+    <main class="wrap">
+
+        <button class="nav prev" type="button" aria-label="Scroll left">↞</button>
+
+            <section class="carousel" aria-label="Open when letters carousel">
+
+                <button class="card" type="button" data-letter="sad">
+                    <h2>you're sad</h2>
+                </button>
+
+                <button class="card" type="button" data-letter="lonely">
+                    <h2>you're lonely</h2>
+                </button>
+
+                <button class="card" type="button" data-letter="miss">
+                    <h2>you miss me</h2>
+                </button>
+
+                <button class="card" type="button" data-letter="laugh">
+                    <h2>you want a laugh</h2>
+                </button>
+
+                <button class="card" type="button" data-letter="mad">
+                    <h2>you're mad</h2>
+                </button>
+
+            </section>
+
+        <button class="nav next" type="button" aria-label="Scroll right">↠</button>
+    </main>
+
+    <footer class="note">
+        <p>ps: you can come back here anytime. <br>i will write more letters as we progress our relationship.<br></p>
+    </footer>
+
+  <!-- OVERLAY MODAL -->
+    <div class="overlay" aria-hidden="true">
+        <section class="modal" role="dialog" aria-label="Letter">
+            <button class="close" type="button" aria-label="Close">×</button>
+
+            <div class="envelope-scene" aria-hidden="true"></div>
+
+            <article class="paper">
+                <!-- <p class="date">march 13, 2026</p> -->
+                <h2 id="letterTitle"></h2>
+                <div id="letterBody"></div>
+            </article>
+        </section>
+    </div>
+</body>
+</html>
