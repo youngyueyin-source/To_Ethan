@@ -241,7 +241,7 @@ body::before{
   left: 50%;
   bottom: 10%;
   transform: translateX(-50%) translateY(70%);
-  width: min(560px, 86%);
+  width: min(580px, 86%);
   max-height: 78%;
   overflow: auto;
 
@@ -268,8 +268,8 @@ body::before{
 }
 
 .paper p{
-  margin: 10px 0 0;
-  line-height: 1.6em;
+  margin: 14px 0 0;
+  line-height: 1.8em;
 }
 
 .paper::-webkit-scrollbar{ width: 10px; }
