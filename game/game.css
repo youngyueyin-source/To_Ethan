@@ -1,0 +1,354 @@
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+h1{
+    font-family: "Poetsen One", sans-serif;
+    font-weight: lighter;
+    color: rgb(255, 0, 174);
+}
+
+.sub {
+    font-family: "Raleway Dots", sans-serif;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: #05195d;
+  color: white;
+}
+
+/* arena must be positioned so absolute children (target/pop/rank) place correctly */
+.arena {
+  position: relative;
+  width: min(1100px, 92vw);
+  height: min(650px, 70vh);
+  margin: 18px auto;
+  border-radius: 22px;
+  border: 1px solid rgb(255, 0, 174);
+  background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.08), transparent 55%),
+              rgba(255,255,255,0.04);
+  overflow: hidden; /* prevents target flying outside the arena visually */
+}
+
+/* target MUST be absolute or left/top from JS does nothing */
+.target {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 118px; /* JS will override */
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: crosshair;
+}
+
+/* your JS relies on this class existing */
+.hidden {
+  display: none !important;
+}
+
+/* start button should sit above arena content */
+.start-btn {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 140px;
+  height: 55px;
+  border-radius: 999px;
+  border: 1px solid rgb(0, 135, 0);
+  background: rgb(0, 193, 0);
+  font-weight: 700;
+  font-size: 1.5em;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  font-family: "Luckiest Guy", cursive;
+  color: white;
+  font-weight: lighter;
+  align-items: flex-end; 
+  padding-top: 7px
+}
+
+
+.start-btn:hover {
+    text-decoration: underline;
+}
+
+/* make sure pop and rank appear above target */
+.pop, .rank {
+  z-index: 5;
+}
+
+/* if you have an overlay, it must be on top when visible */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: grid;
+  place-items: center;
+  z-index: 50;
+}
+
+.overlay.hidden {
+  display: none !important;
+}
+
+.modal {
+  width: min(500px, 85vw);
+  border-radius: 22px;
+  background: rgba(10,15,30,0.85);
+  border: 2px solid rgb(255, 0, 174);
+  padding: 18px;
+}
+
+.reward-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0;
+}
+
+.reward-grid img {
+  display: block;
+  width: min(420px, 85%);
+  height: auto;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 22px 80px rgba(0,0,0,0.45);
+}
+
+/* quick HUD so it doesn’t look broken */
+.hud {
+  width: min(1100px, 92vw);
+  margin: 18px auto 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-end;
+}
+
+.hud-stats {
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  gap: 10px 14px;
+}
+
+.stat .label {
+  display: block;
+  font-size: 0.75rem;
+  opacity: 0.75;
+  text-transform: lowercase;
+}
+
+.stat .value {
+  font-weight: 800;
+}
+/* hit pop text */
+.pop{
+  position:absolute;
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(10px);
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 0 18px 60px rgba(0,0,0,0.22);
+}
+
+/* end-of-round rank card (in-arena) */
+.rank{
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(520px, 92%);
+  border-radius: 24px;
+  background: rgba(10,15,30,0.90);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 26px 90px rgba(0,0,0,0.35);
+  color: white;
+  padding: 16px;
+  text-align: left;
+}
+
+.rank h3{
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.rank .big{
+  font-weight: 400;
+  font-size: 3.2rem;
+  margin: 0;
+  text-transform: lowercase;
+}
+
+.rank .small{
+  margin: 6px 0 0;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.rank .row{
+  display:flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.target:hover {
+  cursor: url("images/heart-cursor.png") 16 16, pointer;
+}
+
+
+.modal{
+    position: relative;
+    text-align: center;
+    padding: 22px;
+}
+
+/* title */
+.modal h2{
+  margin: 6px 0 10px;
+  font-family: "Luckiest Guy", cursive;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* stats text */
+.reward-text{
+  margin: 0 0 14px;
+  opacity: 0.9;
+}
+
+/* close button */
+.close{
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  border: 1px solid rgb(255, 0, 174);
+  background: rgba(255,255,255,0.10);
+  color: white;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.close:hover{
+  background: rgba(255,255,255,0.16);
+}
+
+/* IMPORTANT: modal needs position relative so the close button anchors correctly */
+.modal{
+  position: relative;
+}
+
+/* since you're showing ONE random reward, make it centered */
+.reward-grid{
+  display: grid;
+  place-items: center;
+  margin-top: 20px;
+}
+
+/* make the single reward image look like a featured card */
+.reward-grid img{
+  width: min(420px, 82vw);
+  height: min(420px, 45vh);
+  object-fit: cover;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.16);
+  box-shadow: 0 22px 80px rgba(0,0,0,0.45);
+}
+
+/* actions row */
+.actions{
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* button base */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 16px;
+  min-width: 170px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.20);
+  background: rgba(255,255,255,0.14);
+  color: white;
+  font-weight: 10000;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.btn:hover{
+  background: rgba(255,255,255,0.18);
+  transform: translateY(-1px);
+}
+
+.btn:active{
+  transform: translateY(0px);
+}
+
+/* ghost button variant */
+.btn.ghost{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+
+.btn.ghost:hover{
+  background: rgba(255,255,255,0.08);
+}
+
+
+.rank-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+  flex-wrap: wrap;
+}
+
+/* primary play again button */
+.btn.primary {
+  background: rgb(255, 0, 174);
+  color: white;
+  border: none;
+  font-weight: 900;
+}
+
+.btn.primary:hover {
+  transform: translateY(-2px);
+}
+
+#rankPlayAgain {
+  font-size: 1.1em;
+}
+
+.reward-caption {
+  margin-top: 12px;
+  font-size: 1rem;
+  font-family: "Poetsen One", sans-serif;
+  opacity: 0.9;
+}
